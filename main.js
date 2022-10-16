@@ -24,8 +24,8 @@ function extractLink(html){
 
 
   // now get all macthes using that link :
-//  console.log(fullLink);
-  getAllMatches(fullLink);
+ console.log(link);
+//   getAllMatches(fullLink);
  
 }
 
