@@ -1,0 +1,35 @@
+[{
+    "name": "Steve",
+    "last name" : "Roggers",
+     "age"  : 102,
+     "freinds" : ["Tony" ,"Bruce" ,"Baki"],
+     "address" :{
+        "city" : "Brooklyn",
+        "state" :"New York"
+     }
+
+},
+
+{
+    "name" :"Tony",
+    "last name" : "Stark",
+    "age" : 40,
+    "firends" :["Steve" , "Bruce" ,"Peter"],
+    "address" :{
+        "city" : "Manhatan",
+        "state" : "New York"
+    }
+},
+
+{
+    "name" :"Peter",
+    "last name" : "Parker",
+    "age" : 21,
+    "firends" :["Steve" , "Bruce" ,"Dr strange"],
+    "address" :{
+        "city" : "Manhatan",
+        "state" : "New York"
+    }
+}
+
+]
