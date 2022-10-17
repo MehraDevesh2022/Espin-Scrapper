@@ -22,10 +22,10 @@ function extractLink(html){
   // now combine the  link for completeing the path of homepage + result page 
   const fullLink = "https://www.espncricinfo.com/" + link;
 
-
+   
   // now get all macthes using that link :
- console.log(link);
-//   getAllMatches(fullLink);
+
+  getAllMatches(fullLink);
  
 }
 
@@ -45,10 +45,14 @@ function getAllMatches(fullLink){
 function getExtractAllLinks(html){
 
     let $ = cheerio.load(html);
-    let anchorElm = $(
-      ".ds-grow.ds-px-4.ds-border-r.ds-border-line-default-translucent > a"
-    );
-      let link = anchorElm.attr('href')
-     let fullLink = "https://www.espncricinfo.com/" + link; 
-     console.log(fullLink );
+     let fullLink =[];
+    let anchorElm = $(".ds-flex .ds-grow.ds-px-4.ds-border-r.ds-border-line-default-translucent>a");
+   let link = null;
+    for(let i=0; i<anchorElm.length; i++){
+      link = $(anchorElm[i]).attr('href')
+      fullLink[i] ="https://www.espncricinfo.com/" + link; 
+    }
+ console.log(fullLink);
+    
+   
 }

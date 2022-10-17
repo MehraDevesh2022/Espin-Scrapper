@@ -37,4 +37,16 @@ let result = $(
 console.log(venu);
 console.log(date);
 console.log(result);
+
+let innings = $(
+  ".ds-w-full.ds-table.ds-table-md.ds-table-auto.ci-scorecard-table"
+);
+
+let scoreCard =''
+for(let i=0; i<innings.length; i++){
+ scoreCard += $(innings[i]).html();
 }
+console.log(scoreCard);
+}
+
+
