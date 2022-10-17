@@ -42,10 +42,10 @@ function getScore(html) {
     htmlStr += $(innings[i]).html();
     let teamName = $(innings[i]).find(".ds-text-title-xs.ds-font-bold.ds-capitalize").text();
 
-    let apponentName = i == 0 ? 1 : 0;
-    apponentName = $(innings[apponentName]).find(".ds-text-title-xs.ds-font-bold.ds-capitalize").text();
+    let oppenentName = i == 0 ? 1 : 0;
+    oppenentName = $(innings[oppenentName]).find(".ds-text-title-xs.ds-font-bold.ds-capitalize").text();
 
-    console.log(`venue : ${venue}  date : ${date} teams : ${teamName} vs ${apponentName}`);
+    console.log(`venue : ${venue}  date : ${date} teams : ${teamName} vs ${oppenentName}`);
 
   }
   // console.log(htmlStr);
