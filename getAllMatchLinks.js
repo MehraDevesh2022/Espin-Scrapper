@@ -1,6 +1,7 @@
-const request  = require('request');
-const cheerio = require('cheerio');
-const {processScoreCard} = require('./scoreCard');
+const request = require("request");
+const cheerio = require("cheerio");
+const { processScoreCard } = require("./scoreCard");
+
 
 function getAllMatches(fullLink) {
   request(fullLink, function (error, response, html) {
@@ -24,12 +25,11 @@ function getExtractAllLinks(html) {
     let fullLink = "https://www.espncricinfo.com/" + link;
 
     // call the scoreCard function to get all match scrore detials using these match links :
-     processScoreCard(fullLink); // each time one macth link passed out of 60 match
+    processScoreCard(fullLink); // each time one macth link passed out of 60 match
   }
-  
 }
 
-
 module.exports = {
- getAllMatches,
+  getAllMatches,
 };
+
