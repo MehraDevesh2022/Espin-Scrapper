@@ -7,6 +7,7 @@ const cheerio = require("cheerio");
 const path = require("path");
 const fs = require("fs");
 const xlsx = require("xlsx");
+const { log } = require("console");
 // this function called from getAllMatch module :
 function processScoreCard(url) {
   request(url, cb);
@@ -17,6 +18,7 @@ function cb(error, response, html) {
     console.log(error);
   } else {
     getScore(html);
+    
   }
 }
 
@@ -29,7 +31,7 @@ function getScore(html) {
   // convert str to array  geting venue and date sapreatly
 
   getData = getData.split(",");
-  let venue = getData[1].trim();
+  let venue = getData[1];
   let date = getData[2].trim();
 
   // now get result of the match : =>
@@ -54,15 +56,10 @@ function getScore(html) {
       .find(".ds-text-title-xs.ds-font-bold.ds-capitalize")
       .text();
 
-    // console.log(
-    //   `venue : ${venue}  date : ${date} teams : ${teamName} vs ${oppenentName}`
-    // );
+   
+    let cInings = $(innings[i]); 
 
-    let cInings = $(innings[i]); //.ds-w-0
-
-    let rowData = cInings.find(
-      ".ds-w-full.ds-table.ds-table-md.ds-table-auto.ci-scorecard-table>tbody tr"
-    );
+    let rowData = cInings.find(".ds-w-full.ds-table.ds-table-md.ds-table-auto.ci-scorecard-table>tbody tr");
 
     // console.log( `--------------------------------- ${teamName} -------------------------------------------`);
 
@@ -113,7 +110,8 @@ function storeData(
   let teamPath = path.join(__dirname, "IPL", teamName);
   iplDir(teamPath);
 
- let filePath = path.join(teamPath, playerName, ".xlsx");
+ let filePath = path.join(teamPath, playerName + ".xlsx");
+// console.log(filePath);
  let readContent = excelReader(filePath, playerName);
 
  let objData = {
@@ -129,7 +127,7 @@ function storeData(
  };
 
  readContent.push(objData);
- excelWriter(filePath, playerName, readContent);
+ excelWriter(filePath,playerName,readContent);
 
 
 }
@@ -153,8 +151,12 @@ function excelWriter(filePath, sheetName, jsonData) {
 // now its time read data using xlsx module =>
 function excelReader(filePath, sheetName) {
   if (fs.existsSync(filePath) == false) {
+    console.log("heelo");
     return [];
+     
+    
   }
+  console.log("heelo");
   let wb = xlsx.readFile(filePath);
   // which excel book to read
   let excelData = wb.Sheets[sheetName];
