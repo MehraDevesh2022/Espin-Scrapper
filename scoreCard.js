@@ -4,12 +4,13 @@
 
 const request = require("request");
 const cheerio = require("cheerio");
-
+const path = require("path");
+const fs = require("fs");
+const xlsx = require("xlsx");
 // this function called from getAllMatch module :
-function processScoreCard(url){
-request(url, cb);
+function processScoreCard(url) {
+  request(url, cb);
 }
-
 
 function cb(error, response, html) {
   if (error) {
@@ -36,13 +37,11 @@ function getScore(html) {
     ".ds-text-tight-m.ds-font-regular.ds-truncate.ds-text-typo-title"
   ).text();
 
-  console.log(venue);
-  console.log(date);
-  console.log(result);
-  console.log("-------------------------------------------------");
+  // console.log(venue);
+  // console.log(date);
+  // console.log(result);
 
   let innings = $(".ds-rounded-lg.ds-mt-2");
-  console.log(innings.length);
   let htmlStr = "";
   for (let i = 0; i < innings.length; i++) {
     htmlStr += $(innings[i]).html();
@@ -55,9 +54,9 @@ function getScore(html) {
       .find(".ds-text-title-xs.ds-font-bold.ds-capitalize")
       .text();
 
-    console.log(
-      `venue : ${venue}  date : ${date} teams : ${teamName} vs ${oppenentName}`
-    );
+    // console.log(
+    //   `venue : ${venue}  date : ${date} teams : ${teamName} vs ${oppenentName}`
+    // );
 
     let cInings = $(innings[i]); //.ds-w-0
 
@@ -65,7 +64,7 @@ function getScore(html) {
       ".ds-w-full.ds-table.ds-table-md.ds-table-auto.ci-scorecard-table>tbody tr"
     );
 
-  console.log(`--------------------------------- ${teamName} -------------------------------------------\n`);
+    // console.log( `--------------------------------- ${teamName} -------------------------------------------`);
 
     for (let j = 0; j < rowData.length; j++) {
       let tableCol = $(rowData[j]).find("td");
@@ -79,15 +78,92 @@ function getScore(html) {
         let six = $(tableCol[6]).text().trim();
         let str = $(tableCol[7]).text().trim();
 
-        console.log(
-          `PlayerName :${playerName}  || Runs : ${runs}  || Balls ${balls}  || Fours : ${four}  || Sixes : ${six}  || Strike-Rate : ${str}`
+        // now make dir inside of ipl dir for each team :
+        storeData(
+          teamName,
+          oppenentName,
+          playerName,
+          runs,
+          balls,
+          four,
+          six,
+          str,
+          date
         );
+
+        // console.log(
+        //   `PlayerName :${playerName}  || Runs : ${runs}  || Balls ${balls}  || Fours : ${four}  || Sixes : ${six}  || Strike-Rate : ${str}`
+        // );
       }
     }
   }
 }
 
+function storeData(
+  teamName,
+  oppenentName,
+  playerName,
+  runs,
+  balls,
+  four,
+  six,
+  str,
+  date
+) {
+  let teamPath = path.join(__dirname, "IPL", teamName);
+  iplDir(teamPath);
 
-module.exports = {
-  processScoreCard,
-};
+ let filePath = path.join(teamPath, playerName, ".xlsx");
+ let readContent = excelReader(filePath, playerName);
+
+ let objData = {
+   teamName,
+   oppenentName,
+   playerName,
+   runs,
+   balls,
+   four,
+   six,
+   str,
+   date,
+ };
+
+ readContent.push(objData);
+ excelWriter(filePath, playerName, readContent);
+
+
+}
+
+function iplDir(teamPath) {
+  if (fs.existsSync(teamPath) == false) {
+    fs.mkdirSync(teamPath);
+  }}
+
+function excelWriter(filePath, sheetName, jsonData) {
+  let newWB = xlsx.utils.book_new();
+  // add new WorkBook (new sheet added)
+  let newWS = xlsx.utils.json_to_sheet(jsonData);
+  // this will take JSON data and convert intp Excel formate
+  xlsx.utils.book_append_sheet(newWB, newWS, sheetName);
+  // this will add new sheet and and make it also named added that perticulaer sheet name
+  xlsx.writeFile(newWB, filePath);
+  // this will write workBook and provide the file name
+}
+
+// now its time read data using xlsx module =>
+function excelReader(filePath, sheetName) {
+  if (fs.existsSync(filePath) == false) {
+    return [];
+  }
+  let wb = xlsx.readFile(filePath);
+  // which excel book to read
+  let excelData = wb.Sheets[sheetName];
+  // which sheet to read from excel workbook
+  let ans = xlsx.utils.sheet_to_json(excelData);
+  // converting excel data to json formate
+  return ans;
+}
+
+module.exports ={
+  processScoreCard
+}

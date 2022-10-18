@@ -1,21 +1,22 @@
-const request = require('request');
-const cheerio = require('cheerio');
-const {getAllMatches} = require('./getAllMatchLinks')
+const request = require("request");
+const cheerio = require("cheerio");
+const fs = require("fs");
+const path = require("path");
+const { getAllMatches } = require("./getAllMatchLinks");
 const url = "https://www.espncricinfo.com/series/ipl-2020-21-1210595";
 
 // initial url passed espncricinfo site and callback function as well :
-request(url ,cb);
+request(url, cb);
 
-function cb(error , response , html) {
-    if(error){
-        console.log(error);
-    }else{
-      // extractLink function provide use link of result page using html scrapped using initial url 
-      extractLink(html);
-    }
-
+function cb(error, response, html) {
+  if (error) {
+    console.log(error);
+  } else {
+    // extractLink function provide use link of result page using html scrapped using initial url
+    extractLink(html);
+  }
 }
-function extractLink(html){
+function extractLink(html) {
   // $ as selectorTool (all function and peoprty of cheerio now inside the $ with html of espin home page)
   let $ = cheerio.load(html);
   // we are url="https://www.espncricinfo.com/series/ipl-2020-21-1210595" here now  we want access result page for that we need to extract that link of result page from inside of  (anchor tag) a<'href' ="result link">
@@ -31,4 +32,16 @@ function extractLink(html){
   getAllMatches(fullLink);
 }
 
+// now create a new dirctory for storing excel sheet of scrapped data :
 
+// __dirname will return current directory address :
+
+let iplPath = path.join(__dirname, "IPL"); // current address + IPL (M:\Web_Scriping_Node_js\espin-Scrapper\IPL)
+
+iplDir(iplPath); // call function
+// if dir not available then make a dir :
+function iplDir(iplPath) {
+  if (fs.existsSync(iplPath) == false) {
+    fs.mkdirSync(iplPath);
+  }
+}
