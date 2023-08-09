@@ -13,9 +13,11 @@ function cb(error, response, html) {
   if (error) {
     console.log(error);
   } else {
-    extractLink(html);
+    console.log(html);
+    // extractLink(html);
   }
 }
+
 function extractLink(html) {
   let $ = cheerio.load(html);
 
