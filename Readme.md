@@ -1,44 +1,26 @@
-# cricketbuzz Website Scraper for IPL Player Data
+# CricketBuzz Website Scraper
 
-## Introduction
+A Node.js project that uses the Cheerio library for web scraping and the Path and File System modules for saving scraped data to a file. The project also uses the Request module for fetching the HTML content of a web page.
 
-The cricketbuzz Website Scraper is a Node.js application designed to fetch cricket player data for IPL teams from the cricketbuzz website. It organizes the data into categories such as winning teams, players, and highest performers. The fetched data is then stored in a directory and exported to an Excel file using the `xlsx` library.
+## Requirements
 
-## Used Libraries -
-
- - `Cheerio` - For scraping the website and fetching the data.  
-<img src="./img/01.png" width="800"  /> 
-
- - `Xlsx` - For exporting the data to an Excel file. 
- - `Request` - For making HTTP requests to the website. 
+- Node.js installed on your system.
 
 ## Installation
-       
-     - Clone the repository :
 
-     ```bash
-     git clone https://github.com/MehraDevesh2022/Espin-Scrapper.git 
-   
-        ```
+1. Clone the repository or download the zip file.
+2. Run `npm install` to install the required dependencies.
 
-        - Install the dependencies :
+## Usage
 
-        ```bash
-        npm install
-        ```
+1. Open the `main.js` file.
+2. Replace the value of `url` variable with the URL of the web page you want to scrape.
+3. Replace the selectors inside the `cheerio.load` function to select the desired data from the web page.
+4. Run `node app.js` in the terminal to start the scraping process.
+5. The scraped data will be saved in the `output` folder with the filename `cricketbuzz.txt`.
 
-        - Run the application :
+## Project Structure
 
-        ```bash
-       node app.js
-        ```
- 
- ## Usage 
-  
-  
- - Open the main.js file.
- - Replace the value of url variable with the URL of the web page you want to scrape.
- - Replace the selectors inside the cheerio.load function to select the desired data from the web page.
- - Run `node app.js` in the terminal to start the scraping process.
- - The scraped data will be saved in the output folder with the filename cricketbuzz.txt.
+- `main.js`: The main file that contains the scraping logic.
+- `output/cricketbuzz.txt`: The file where scraped data is stored.
 
