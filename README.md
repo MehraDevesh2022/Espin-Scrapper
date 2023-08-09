@@ -13,15 +13,14 @@ The cricketbuzz Website Scraper is a Node.js application designed to fetch crick
  - `Request` - For making HTTP requests to the website. 
 
 ## Installation
-       
-     - Clone the repository :
+   - Clone the repository :
 
      ```bash
      git clone https://github.com/MehraDevesh2022/Espin-Scrapper.git 
    
         ```
 
-        - Install the dependencies :
+ - Install the dependencies :
 
         ```bash
         npm install
